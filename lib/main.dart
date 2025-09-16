@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 void main() {
@@ -51,7 +53,7 @@ class __TabsNonScrollableDemoState extends State<_TabsNonScrollableDemo>
   @override
   Widget build(BuildContext context) {
     // For the To do task hint: consider defining the widget and name of the tabs here
-    final tabs = ['Tab 1', 'Tab 2', 'Tab 3', 'Tab 4'];
+    final tabs = ['By City', 'Tab 2', 'Tab 3', 'Tab 4'];
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -88,13 +90,20 @@ class _WeatherWidgetState extends State<TabContentOne> {
   String temperature = "Temperature: --";
   String condition = "Condition: --";
 
-  void _fetchWeather() {
-    setState(() {
-      // For now, just display the input and mock data
-      cityName = "City: ${_cityController.text}";
-      temperature = "Temperature: 25°C"; // placeholder
-      condition = "Condition: Sunny"; // placeholder
-    });
+ // Function to simulate fetching weather
+  void _simulateWeatherFetch() {
+    final String enteredCity = _cityController.text.trim();
+    if (enteredCity.isEmpty) return;
+
+    final random = Random();
+
+    // Random temperature between 15 and 30
+    final int temp = 15 + random.nextInt(16);
+
+    // Random condition
+    final conditions = ["Sunny", "Cloudy", "Rainy"];
+    final String randomCondition =
+        conditions[random.nextInt(conditions.length)];
   }
 
   @override
@@ -113,7 +122,7 @@ class _WeatherWidgetState extends State<TabContentOne> {
           ),
           SizedBox(height: 16),
           ElevatedButton(
-            onPressed: _fetchWeather,
+            onPressed: _simulateWeatherFetch,
             child: Text("Fetch Weather"),
           ),
           SizedBox(height: 24),
