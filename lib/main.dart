@@ -57,7 +57,7 @@ class __TabsNonScrollableDemoState extends State<_TabsNonScrollableDemo>
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: Text('Weather'),
+        title: Text('Weather Info'),
         bottom: TabBar(
           controller: _tabController,
           isScrollable: false,
@@ -144,23 +144,20 @@ class _WeatherWidgetState extends State<TabContentOne> {
 class TabContentTwo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    throw UnimplementedError();
+    return Center(child: Text("Tab 2"));
   }
 }
 
 class TabContentThree extends StatelessWidget {
   @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    throw UnimplementedError();
+  Widget build(BuildContext context) {    
+    return Center(child: Text("Tab 3"));
   }
 }
 
 class TabContentFour extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    throw UnimplementedError();
+    return Center(child: Text("Tab 4"));
   }
 }
