@@ -10,7 +10,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: DefaultTabController(length: 4, child: _TabsNonScrollableDemo()),
+      home: DefaultTabController(length: 2, child: _TabsNonScrollableDemo()),
     );
   }
 }
@@ -35,7 +35,7 @@ class __TabsNonScrollableDemoState extends State<_TabsNonScrollableDemo>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(initialIndex: 0, length: 4, vsync: this);
+    _tabController = TabController(initialIndex: 0, length: 2, vsync: this);
     _tabController.addListener(() {
       setState(() {
         tabIndex.value = _tabController.index;
@@ -53,7 +53,7 @@ class __TabsNonScrollableDemoState extends State<_TabsNonScrollableDemo>
   @override
   Widget build(BuildContext context) {
     // For the To do task hint: consider defining the widget and name of the tabs here
-    final tabs = ['By City', 'Tab 2', 'Tab 3', 'Tab 4'];
+    final tabs = ['By City', '7-Day'];
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -68,29 +68,27 @@ class __TabsNonScrollableDemoState extends State<_TabsNonScrollableDemo>
         controller: _tabController,
         children: [
           // hint for the to do task:Considering creating the different for different tabs
-          TabContentOne(),
-          TabContentTwo(),
-          TabContentThree(),
-          TabContentFour(),
+          WeatherWidget(),
+          SevenDayForecastWidget(),
         ],
       ),
     );
   }
 }
 
-class TabContentOne extends StatefulWidget {
+class WeatherWidget extends StatefulWidget {
   @override
   _WeatherWidgetState createState() => _WeatherWidgetState();
 }
 
-class _WeatherWidgetState extends State<TabContentOne> {
+class _WeatherWidgetState extends State<WeatherWidget> {
   final TextEditingController _cityController = TextEditingController();
 
   String cityName = "City: --";
   String temperature = "Temperature: --";
   String condition = "Condition: --";
 
- // Function to simulate fetching weather
+  // Function to simulate fetching weather
   void _simulateWeatherFetch() {
     final String enteredCity = _cityController.text.trim();
     if (enteredCity.isEmpty) return;
@@ -148,16 +146,88 @@ class TabContentTwo extends StatelessWidget {
   }
 }
 
-class TabContentThree extends StatelessWidget {
+class SevenDayForecastWidget extends StatefulWidget {
+  const SevenDayForecastWidget({Key? key}) : super(key: key);
+
   @override
-  Widget build(BuildContext context) {    
-    return Center(child: Text("Tab 3"));
+  State<SevenDayForecastWidget> createState() => _SevenDayForecastWidgetState();
+}
+
+class _SevenDayForecastWidgetState extends State<SevenDayForecastWidget> {
+  final List<Map<String, String>> _forecast = [];
+
+  void _generateForecast() {
+    final random = Random();
+    final conditions = ["Sunny", "Cloudy", "Rainy"];
+
+    List<Map<String, String>> tempForecast = [];
+    for (int i = 0; i < 7; i++) {
+      final int temp = 15 + random.nextInt(16);
+      final String condition = conditions[random.nextInt(conditions.length)];
+      tempForecast.add({
+        "day": "Day ${i + 1}",
+        "temp": "$temp°C",
+        "condition": condition,
+      });
+    }
+
+    setState(() {
+      _forecast.clear();
+      _forecast.addAll(tempForecast);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text("7-Day Forecast")),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            ElevatedButton(
+              onPressed: _generateForecast,
+              child: const Text("Get 7-Day Forecast"),
+            ),
+            const SizedBox(height: 20),
+            Expanded(
+              child: _forecast.isEmpty
+                  ? const Center(
+                      child: Text("Press the button to see the forecast."),
+                    )
+                  : ListView.builder(
+                      itemCount: _forecast.length,
+                      itemBuilder: (context, index) {
+                        final day = _forecast[index];
+                        return Card(
+                          margin: const EdgeInsets.symmetric(vertical: 8),
+                          child: ListTile(
+                            leading: const Icon(Icons.wb_sunny),
+                            title: Text(day["day"]!),
+                            subtitle: Text("Condition: ${day["condition"]}"),
+                            trailing: Text(day["temp"]!),
+                          ),
+                        );
+                      },
+                    ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
 
-class TabContentFour extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Center(child: Text("Tab 4"));
-  }
-}
+// class TabContentThree extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Center(child: Text("Tab 3"));
+//   }
+// }
+
+// class TabContentFour extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Center(child: Text("Tab 4"));
+//   }
+// }
