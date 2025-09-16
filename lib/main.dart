@@ -104,6 +104,12 @@ class _WeatherWidgetState extends State<TabContentOne> {
     final conditions = ["Sunny", "Cloudy", "Rainy"];
     final String randomCondition =
         conditions[random.nextInt(conditions.length)];
+
+    setState(() {
+      cityName = "City: $enteredCity";
+      temperature = "Temperature: $temp°C";
+      condition = "Condition: $randomCondition";
+    });
   }
 
   @override
