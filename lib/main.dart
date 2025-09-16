@@ -66,9 +66,86 @@ class __TabsNonScrollableDemoState extends State<_TabsNonScrollableDemo>
         controller: _tabController,
         children: [
           // hint for the to do task:Considering creating the different for different tabs
-          for (final tab in tabs) Center(child: Text(tab)),
+          TabContentOne(),
+          TabContentTwo(),
+          TabContentThree(),
+          TabContentFour(),
         ],
       ),
     );
+  }
+}
+
+class TabContentOne extends StatefulWidget {
+  @override
+  _WeatherWidgetState createState() => _WeatherWidgetState();
+}
+
+class _WeatherWidgetState extends State<TabContentOne> {
+  final TextEditingController _cityController = TextEditingController();
+
+  String cityName = "City: --";
+  String temperature = "Temperature: --";
+  String condition = "Condition: --";
+
+  void _fetchWeather() {
+    setState(() {
+      // For now, just display the input and mock data
+      cityName = "City: ${_cityController.text}";
+      temperature = "Temperature: 25°C"; // placeholder
+      condition = "Condition: Sunny"; // placeholder
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          TextField(
+            controller: _cityController,
+            decoration: InputDecoration(
+              labelText: "Enter city name",
+              border: OutlineInputBorder(),
+            ),
+          ),
+          SizedBox(height: 16),
+          ElevatedButton(
+            onPressed: _fetchWeather,
+            child: Text("Fetch Weather"),
+          ),
+          SizedBox(height: 24),
+          Text(cityName, style: TextStyle(fontSize: 18)),
+          Text(temperature, style: TextStyle(fontSize: 18)),
+          Text(condition, style: TextStyle(fontSize: 18)),
+        ],
+      ),
+    );
+  }
+}
+
+class TabContentTwo extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    throw UnimplementedError();
+  }
+}
+
+class TabContentThree extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    throw UnimplementedError();
+  }
+}
+
+class TabContentFour extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    throw UnimplementedError();
   }
 }
